@@ -29,7 +29,16 @@ void movepart(part *p) {
 	dmovepart(p, p->direction);
 }
 
-// Using this to abstract away the ncurses library as much as possible
 void printpart(part *p) {
     mvwaddch(stdscr, p->coords.y, p->coords.x, p->attire);
+}
+
+/* Combined dmovepart and printpart (inspired by combined ncurses functions, i.e. mvaddch)*/
+void dmoveprintpart(part *p, direction d) {
+	dmovepart(p, d);
+	printpart(p);
+}
+
+void moveprintpart(part *p) {
+	dmoveprintpart(p, p->direction);
 }
