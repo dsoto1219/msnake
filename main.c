@@ -42,15 +42,29 @@ int main(void) {
 	part *body = &S.body;
 
     int key;
-    direction d = RIGHT;
+    direction d = S.head.direction; /* Direction for the entire snake to move in */
     while (true) {
 		/* Set Background */
 		getmaxyx(stdscr, row, col); /* Get size of screen each time, in case of resize */
 		mvwprintw(stdscr, 0, 0, "(%d, %d)", head->coords.x, head->coords.y);
 		mvwprintw(stdscr, row - 1, 0, "direction=%i", d);
+		/* End Setting Background */
 
 		/* Prepare for next frame */
-		/* Move snake before calling getch(), or else it won't print */
+		/* ***MOVE SNAKE*** */
+		/*
+		   We must do this before calling getch(), or else the snake print!
+		   (found this out via testing)
+
+		   We want a delay between when the head moved and when the body is moved
+		   (in general, we want a delay between the move of any given part and 
+		   the move of the part after it). So, we can move and print the head normally, 
+		   but we need to handle the following part carefully: instead of changing its position
+		   and moving it in the same step, we split this into two steps and add a check in-between 
+		   them. 
+			Ex: d = RIGHT, head->direction = RIGHT, we want body->direction = RIGHT.
+				Next frame: d = UP, head->direction = UP, we want body->direction = RIGHT
+		*/
 		moveprintpart(head); 
 		movepart(body); 
 		if (d != opposite(body->direction)) {
@@ -58,6 +72,7 @@ int main(void) {
 		}
 		printpart(body);
 		printobj(&apple);
+		/* ***DONE MOVING SNAKE*** */
 
 		key = getch();
 		if (key != ERR) {
