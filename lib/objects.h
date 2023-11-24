@@ -7,11 +7,13 @@ typedef struct {
     int y, x;
 } coordinates;
 
-/* An object is anything that can be printed onto the screen. */
+/* Wanted the snake's parts to inherit this */
 typedef struct {
 	coordinates coords;
     char attire;
 } object;
+
+void printobj(object *obj);
 
 typedef object food;
 
