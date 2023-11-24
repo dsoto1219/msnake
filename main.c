@@ -1,6 +1,7 @@
 #include <curses.h>
 #include <ncurses.h>
 #include <stdlib.h>
+#include <time.h>
 #include "lib/direction.h"
 #include "lib/snake.h"
 
@@ -18,6 +19,10 @@ int main(void) {
     int row, col;
     getmaxyx(stdscr, row, col);
 
+	/* Init apple */
+	srand(time(NULL));
+	food apple = { .coords.y = rand() % row, .coords.x = rand() % col, .attire = '@' };
+
 	/* Init snake */
     snake S = { 
 		.length = 3,
@@ -27,8 +32,14 @@ int main(void) {
 		.head.coords.x = col / 2,
 		.head.attire = 'O',
 		.head.direction = RIGHT,
+
+		.body.coords.y = S.head.coords.y,
+		.body.coords.x = S.head.coords.x - 1,
+		.body.attire = 'o',
+		.body.direction = RIGHT,
 	};
 	part *head = &S.head;
+	part *body = &S.body;
 
     int key;
     direction d = RIGHT;
@@ -39,8 +50,15 @@ int main(void) {
 		mvwprintw(stdscr, row - 1, 0, "direction=%i", d);
 
 		/* Prepare for next frame */
-		movepart(head);		/* Call this before getch(), or else part won't print */
-		printpart(head);
+		/* Move snake before calling getch(), or else it won't print */
+		moveprintpart(head); 
+		movepart(body); 
+		if (d != opposite(body->direction)) {
+			body->direction = d;
+		}
+		printpart(body);
+		printobj(&apple);
+
 		key = getch();
 		if (key != ERR) {
 			d = get_direction(key);
@@ -53,7 +71,6 @@ int main(void) {
 		erase();
     }
 
-    curs_set(2);				/* Show cursor */
     endwin();				/* End curses mode */
     return EXIT_SUCCESS;
 }
