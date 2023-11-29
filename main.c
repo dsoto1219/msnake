@@ -7,6 +7,9 @@
 
 #define TIMEOUT_DELAY 125		/* Delay is in ms */
 #define INITIAL_SNAKE_LENGTH 3
+#define HEAD_ATTIRE 'O'
+#define BODY_ATTIRE 'o'
+#define FOOD_ATTIRE '@'
 
 int main(void) {
     // setlocale(LC_ALL, "");
@@ -26,14 +29,14 @@ int main(void) {
 	food apple = {
 		.coords.y = rand() % row,
 		.coords.x = rand() % col,
-		.attire = '@' 
+		.attire = FOOD_ATTIRE
 	};
 
 	/* Init snake as a linked list of parts */
 	part head_p = {
 		.coords.y = rand() % row,
 		.coords.x = rand() % col,
-		.attire = 'O',
+		.attire = HEAD_ATTIRE,
 		.direction = RIGHT
 	};
 	snake *head = createsnake(head_p);
@@ -43,12 +46,12 @@ int main(void) {
 
 	p.coords.y = head->part.coords.y;
 	p.coords.x = head->part.coords.x - 1;
-	p.attire = 'o';
+	p.attire = BODY_ATTIRE;
 	p.direction = head->part.direction;
 	head = insert(head, p);
 	p.coords.y = head->part.coords.y;
 	p.coords.x = head->part.coords.x - 1;
-	p.attire = 'o';
+	p.attire = BODY_ATTIRE;
 	p.direction = head->part.direction;
 	head = insert(head, p);
 
