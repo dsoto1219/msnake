@@ -1,0 +1,114 @@
+==21396== Memcheck, a memory error detector
+==21396== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==21396== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==21396== Command: ./snake
+==21396== Parent PID: 20510
+==21396== 
+==21396== Conditional jump or move depends on uninitialised value(s)
+==21396==    at 0x4949AD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==21396==    by 0x495B499: __vsnprintf_internal (vsnprintf.c:114)
+==21396==    by 0x487C441: ??? (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882C54: vw_printw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882F99: mvwprintw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x1095AA: main (main.c:63)
+==21396== 
+==21396== Use of uninitialised value of size 8
+==21396==    at 0x492D2EB: _itoa_word (_itoa.c:177)
+==21396==    by 0x4948ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==21396==    by 0x495B499: __vsnprintf_internal (vsnprintf.c:114)
+==21396==    by 0x487C441: ??? (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882C54: vw_printw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882F99: mvwprintw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x1095AA: main (main.c:63)
+==21396== 
+==21396== Conditional jump or move depends on uninitialised value(s)
+==21396==    at 0x492D2FC: _itoa_word (_itoa.c:177)
+==21396==    by 0x4948ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==21396==    by 0x495B499: __vsnprintf_internal (vsnprintf.c:114)
+==21396==    by 0x487C441: ??? (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882C54: vw_printw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882F99: mvwprintw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x1095AA: main (main.c:63)
+==21396== 
+==21396== Conditional jump or move depends on uninitialised value(s)
+==21396==    at 0x49495C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==21396==    by 0x495B499: __vsnprintf_internal (vsnprintf.c:114)
+==21396==    by 0x487C441: ??? (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882C54: vw_printw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882F99: mvwprintw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x1095AA: main (main.c:63)
+==21396== 
+==21396== Conditional jump or move depends on uninitialised value(s)
+==21396==    at 0x4948C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==21396==    by 0x495B499: __vsnprintf_internal (vsnprintf.c:114)
+==21396==    by 0x487C441: ??? (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882C54: vw_printw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x4882F99: mvwprintw (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x1095AA: main (main.c:63)
+==21396== 
+==21396== Conditional jump or move depends on uninitialised value(s)
+==21396==    at 0x109779: dmovepart (snake.c:8)
+==21396==    by 0x10988B: dmoveprintpart (snake.c:39)
+==21396==    by 0x1098BF: moveprintpart (snake.c:44)
+==21396==    by 0x1095D6: main (main.c:69)
+==21396== 
+==21396== Use of uninitialised value of size 8
+==21396==    at 0x10978D: dmovepart (snake.c:8)
+==21396==    by 0x10988B: dmoveprintpart (snake.c:39)
+==21396==    by 0x1098BF: moveprintpart (snake.c:44)
+==21396==    by 0x1095D6: main (main.c:69)
+==21396== 
+==21396== Conditional jump or move depends on uninitialised value(s)
+==21396==    at 0x1096C4: opposite (direction.c:23)
+==21396==    by 0x10961C: main (main.c:75)
+==21396== 
+==21396== Use of uninitialised value of size 8
+==21396==    at 0x1096D8: opposite (direction.c:23)
+==21396==    by 0x10961C: main (main.c:75)
+==21396== 
+==21396== 
+==21396== HEAP SUMMARY:
+==21396==     in use at exit: 167,257 bytes in 355 blocks
+==21396==   total heap usage: 366 allocs, 11 frees, 176,263 bytes allocated
+==21396== 
+==21396== 9 bytes in 1 blocks are possibly lost in loss record 7 of 82
+==21396==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==21396==    by 0x497B58E: strdup (strdup.c:42)
+==21396==    by 0x48B4D54: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==21396==    by 0x48B8098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==21396==    by 0x4881B53: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x48825EC: newterm (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x487A3AF: initscr (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x109388: main (main.c:14)
+==21396== 
+==21396== 24 bytes in 1 blocks are possibly lost in loss record 28 of 82
+==21396==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==21396==    by 0x49F318E: tsearch (tsearch.c:337)
+==21396==    by 0x48B4D6E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==21396==    by 0x48B8098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==21396==    by 0x4881B53: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x48825EC: newterm (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x487A3AF: initscr (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x109388: main (main.c:14)
+==21396== 
+==21396== 168 bytes in 1 blocks are possibly lost in loss record 56 of 82
+==21396==    at 0x484FF50: calloc (vg_replace_malloc.c:1595)
+==21396==    by 0x48B4CCD: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==21396==    by 0x48B8098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==21396==    by 0x4881B53: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x48825EC: newterm (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x487A3AF: initscr (in /usr/lib/x86_64-linux-gnu/libncursesw.so.6.3)
+==21396==    by 0x109388: main (main.c:14)
+==21396== 
+==21396== LEAK SUMMARY:
+==21396==    definitely lost: 0 bytes in 0 blocks
+==21396==    indirectly lost: 0 bytes in 0 blocks
+==21396==      possibly lost: 201 bytes in 3 blocks
+==21396==    still reachable: 167,056 bytes in 352 blocks
+==21396==         suppressed: 0 bytes in 0 blocks
+==21396== Reachable blocks (those to which a pointer was found) are not shown.
+==21396== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==21396== 
+==21396== Use --track-origins=yes to see where uninitialised values come from
+==21396== For lists of detected and suppressed errors, rerun with: -s
+==21396== ERROR SUMMARY: 181 errors from 12 contexts (suppressed: 0 from 0)

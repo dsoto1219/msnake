@@ -3,7 +3,7 @@
 
 #include "objects.h"
 
-/* Part */
+/* Parts */
 typedef struct part {
 	coordinates coords;
 	char attire;
@@ -16,13 +16,16 @@ void printpart(part *p);
 void dmoveprintpart(part *p, direction d); 
 void moveprintpart(part *p); 
 
-/* Snake */
-typedef struct snake {
-    int length;
-    part head;
-	part body;
+/* Snake: Doubly Linked list of Parts */
+typedef struct dllsnake {
+	part part;
+    struct dllsnake *prev;
+    struct dllsnake *next;
 } snake; 
 
-void movesnake(snake *S, direction d);
+snake *createsnake(part p);
+snake *insert(snake *head, part p);
+void movesnake(snake *head, direction d);
+void freesnake(snake *head);
 
 #endif // !SNAKE_H
