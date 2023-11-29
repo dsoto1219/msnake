@@ -17,4 +17,17 @@ void printobj(object *obj);
 
 typedef object food;
 
+/* Parts (Technically a type of object) */
+typedef struct part {
+	coordinates coords;
+	char attire;
+    direction direction;
+} part;
+
+void dmovepart(part *p, direction d); 
+void movepart(part *p); 
+void printpart(part *p); 
+void dmoveprintpart(part *p, direction d); 
+void moveprintpart(part *p); 
+
 #endif // !OBJECTS_H
