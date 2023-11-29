@@ -45,11 +45,16 @@ void moveprintpart(part *p) {
 }
 
 /* SNAKE FUNCTIONS */
-snake *createsnake(int length, part head) {
-	snake *S;
-	S->length = length;
-	S->head = head;
-	return S;
+// Declare head of snake
+snake *createsnake(part p) {
+	snake *head = (snake *)malloc(sizeof(snake));
+	if (head == NULL) exit(1);
+	head->part = p;
+
+	head->prev = NULL;
+	head->next = NULL;
+
+	return head;
 }
 
 snake *insert(snake *head, part p) {
@@ -78,9 +83,7 @@ snake *append(snake *head, part p) {
 	}
 	new->part = p;
 
-	for (snake *ptr = head; ptr != NULL; ptr = ptr->next) {
-	
-	}
+	for (snake *ptr = head; ptr != NULL; ptr = ptr->next);
 
 	return new; 
 }
