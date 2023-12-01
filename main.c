@@ -15,7 +15,7 @@ int main(void) {
 	noecho();					/* getch() doesn't print the character it receives */
     curs_set(0);				/* Hide cursor */
     keypad(stdscr, TRUE);		/* Enable F1,...,F12 and arrow keys in stdscr */
-    // timeout(TIMEOUT_DELAY);
+    timeout(TIMEOUT_DELAY);
 
 	/* Save window boundaries to row, col */
     int row, col;
