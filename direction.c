@@ -39,3 +39,24 @@ direction opposite(direction d) {
 		default: return NONE;
     }
 }
+
+char *dirtostr(direction d) {
+    switch (d) {
+		case RIGHT:
+			return "RIGHT";
+			break;
+		case LEFT:
+			return "LEFT";
+			break;
+		case UP:
+			return "UP";
+			break;
+		case DOWN:
+			return "DOWN";
+			break;
+		case NONE:
+			return "???";
+			break;
+		default: return "???";
+    }
+}

@@ -11,6 +11,7 @@ typedef enum direction {
 
 direction get_direction(int key);
 direction opposite(direction d);
+char *dirtostr(direction d);
 
 #endif // !DIRECTION_H
 

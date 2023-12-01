@@ -3,6 +3,10 @@
 
 #include "objects.h"
 
+#define HEAD_ATTIRE '@'
+#define BODY_ATTIRE 'O'
+#define FOOD_ATTIRE '$'
+
 /* Snake: Doubly Linked list of Parts */
 typedef struct dllsnake {
 	part part;
@@ -11,8 +15,11 @@ typedef struct dllsnake {
 } snake; 
 
 snake *createsnake(part p);
-snake *insert(snake *head, part p);
-void movesnake(snake *head, direction d);
+snake *append(snake *head, part p);
+void printsnake(snake *head);
+void growsnake(snake *head);
+void dmovesnake(snake *head, direction d);
+void movesnake(snake *head);
 void freesnake(snake *head);
 
 #endif // !SNAKE_H

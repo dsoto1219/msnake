@@ -47,3 +47,7 @@ void moveprintpart(part *p) {
 	dmoveprintpart(p, p->direction);
 }
 
+bool canmove(part *p, direction d) {
+	if (d == opposite(p->direction)) return false;
+	return true;
+}
