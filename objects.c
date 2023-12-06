@@ -48,6 +48,7 @@ void moveprintpart(part *p) {
 }
 
 bool canmove(part *p, direction d) {
-	if (d == opposite(p->direction)) return false;
+	if (d == opposite(p->direction)) 
+		return false;
 	return true;
 }

@@ -55,8 +55,8 @@ char *dirtostr(direction d) {
 			return "DOWN";
 			break;
 		case NONE:
-			return "???";
+			return "NONE";
 			break;
-		default: return "???";
+		default: return "NONE";
     }
 }

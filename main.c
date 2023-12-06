@@ -34,24 +34,19 @@ int main(void) {
 		growsnake(head);
 
     int key;
-    direction d = head->part.direction; /* Direction for the entire snake to move in */
+    direction d = head->part.direction; /* Buffer direction */
     while (true) {
-		/* Set and Print Background */
+		/* Set and Print Background and Objects */
 		getmaxyx(stdscr, row, col); /* Get size of screen each time, in case of resize */
 		mvwprintw(stdscr, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
 		mvwprintw(stdscr, row - 1, 0, "direction=%s", dirtostr(d));
 
 		printobj(&apple);
 
-		moveprintpart(&head->part);
-		// for (snake *ptr = head; ptr != NULL; ptr = ptr->next) {
-		// 	part *pp = &ptr->part;
-		// 	dmovepart(pp, head->part.direction);
-		// 	printpart(pp);
-		// }
-
+		printsnake(head);
+		/* Change state */
 		/* 
-		   Always call getch() before printing snake. That way, the snake gets printed and 
+		   Always call getch() after printing snake. That way, the snake gets printed and 
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
 	   */
@@ -63,12 +58,20 @@ int main(void) {
 			}
 		}
 
+		movepart(&head->part);
+		for (snake *ptr = head->next; ptr != NULL; ptr = ptr->next) {
+			part *pp = &ptr->part;
+			movepart(pp);
+			pp->direction = ptr->prev->part.direction;
+		}
+
 		refresh();
 		erase();
     }
 
 	freesnake(head);
 
+	curs_set(1);			/* Turn cursor back on */
     endwin();				/* End curses mode */
     return EXIT_SUCCESS;
 }
