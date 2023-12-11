@@ -14,12 +14,11 @@ typedef struct dllsnake {
     struct dllsnake *next;
 } snake; 
 
-snake *createsnake(part p);
+snake *createsnake(part head_p);
 snake *append(snake *head, part p);
+snake *growsnake(snake *head, direction d);
+snake *lcreatesnake(part head_p, int l, direction start_d);
 void printsnake(snake *head);
-void growsnake(snake *head);
-void dmovesnake(snake *head, direction d);
-void movesnake(snake *head);
 void freesnake(snake *head);
 
 #endif // !SNAKE_H

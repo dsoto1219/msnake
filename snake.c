@@ -3,14 +3,14 @@
 #include "lib/snake.h"
 
 /* SNAKE FUNCTIONS */
-// Declare head of snake
-snake *createsnake(part p) {
+/* Initializes the snake linked list by creating the first element (the head), and returns the new head. */
+snake *createsnake(part head_p) {
 	snake *head = (snake *)malloc(sizeof(snake));
 	if (head == NULL) {
 		fprintf(stderr, "Unable to allocate memory for new part");
 		exit(1);
 	}
-	head->part = p;
+	head->part = head_p;
 
 	head->prev = NULL;
 	head->next = NULL;
@@ -18,6 +18,12 @@ snake *createsnake(part p) {
 	return head;
 }
 
+/*
+	Appends a part to snake linked list. This is a generic function for adding an element to a doubly linked list. 
+	Returns the (new) tail of the snake.
+	Note: this function does not necessarily place the part in the correct position for it to look correct on the screen.
+	The function for that is growsnake, which relies on this function.
+*/
 snake *append(snake *head, part p) {
 	snake *new = (snake *)malloc(sizeof(snake));
 	if (new == NULL) {
@@ -38,38 +44,41 @@ snake *append(snake *head, part p) {
 	return new; 
 }
 
+/* Inputs: head of the snake, direction of the snake */
+snake *growsnake(snake *head, direction d) {
+	part body_p = { .attire = BODY_ATTIRE };
+	snake *new = append(head, body_p); 
+
+	new->part.coords = new->prev->part.coords;
+	dmoveobj(&new->part, opposite(d));
+
+	return new;
+}
+
+/*
+   Creates a snake of a given length using the inputted head and body parts.
+*/
+snake *lcreatesnake(part head_p, int l, direction start_d) {
+	snake *head = createsnake(head_p);
+	for (int i = 1; i < l; i++)
+		growsnake(head, start_d);
+	return head;
+}
+
 void printsnake(snake *head) {
-	for (snake *ptr = head; ptr != NULL; ptr = ptr->next) {
-		printpart(&ptr->part);
-	}
+	for (snake *ptr = head; ptr != NULL; ptr = ptr->next)
+		printobj(&ptr->part);
 }
 
-void growsnake(snake *head) {
-	part body_p = head->part;
-	body_p.attire = BODY_ATTIRE;
-	snake *new = append(head, body_p);
-	snake *prev = new->prev;
-	new->part.coords = prev->part.coords;
-	dmovepart(&new->part, opposite(new->prev->part.direction));
+void movesnake(snake *head, direction d) {
+	// TODO
 }
 
-void dmovesnake(snake *head, direction d) {
-	// 1. Move head in direction d
-	part *phead_p = &head->part;
-	if (canmove(phead_p, d)) {
-		dmovepart(phead_p, d);
-	}
-
-	// 2. Move connected parts in the direction their previous parts are travelling in 
-	for (snake *ptr = head->next; ptr != NULL; ptr = ptr->next) {
-		dmovepart(&ptr->part, ptr->prev->part.direction);
-	}
-}
-
-void movesnake(snake *head) {
-	dmovesnake(head, head->part.direction);
-}
-
+/*
+   Function for freeing the snake linked list. 
+   In any other case, I wouldn't use a recursive solution for safety reasons. However, CS50 taught us this recursive 
+   algorithm for freeing the snake in the shorts that I relied on to build this project, so I'm staying with this.
+*/
 void freesnake(snake *head) {
 	if (head == NULL) 
 		return;

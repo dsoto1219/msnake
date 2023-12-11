@@ -23,18 +23,26 @@ int main(void) {
 
 	srand(time(NULL));
 	/* Init apple */
-	food apple = { .coords.y = rand() % row, .coords.x = rand() % col, .attire = FOOD_ATTIRE };
+	food apple = { 
+		.coords = {
+			.y = rand() % row, 
+			.x = rand() % col
+		},
+		.attire = FOOD_ATTIRE 
+	};
 
-	/* Init snake as a linked list of parts */
 	// Init head
-	part head_p = { .coords.y = row / 2, .coords.x = col / 2, .attire = HEAD_ATTIRE, .direction = RIGHT };
-	snake *head = createsnake(head_p);
-	// Init body
-	for (int i = 1; i < INITIAL_SNAKE_LENGTH; i++)
-		growsnake(head);
+	part head_p = { 
+		.coords = {
+			.y = row / 2,
+			.x = col / 2,
+		},
+		.attire = HEAD_ATTIRE 
+	};
+	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, RIGHT);
 
     int key;
-    direction d = head->part.direction; /* Buffer direction */
+    direction d = RIGHT;
     while (true) {
 		/* Set and Print Background and Objects */
 		getmaxyx(stdscr, row, col); /* Get size of screen each time, in case of resize */
@@ -44,6 +52,7 @@ int main(void) {
 		printobj(&apple);
 
 		printsnake(head);
+
 		/* Change state */
 		/* 
 		   Always call getch() after printing snake. That way, the snake gets printed and 
@@ -51,19 +60,12 @@ int main(void) {
 		   screen is refreshed. 
 	   */
 		key = getch();
-		if (key != ERR) {
-			d = get_direction(key);
-			if (d != opposite(head->part.direction)) {
-				head->part.direction = d;
-			}
-		}
-
-		movepart(&head->part);
-		for (snake *ptr = head->next; ptr != NULL; ptr = ptr->next) {
-			part *pp = &ptr->part;
-			movepart(pp);
-			pp->direction = ptr->prev->part.direction;
-		}
+		// if (key != ERR) {
+		// 	d = get_direction(key);
+		// 	if (d != opposite(head->part.direction)) {
+		// 		head->part.direction = d;
+		// 	}
+		// }
 
 		refresh();
 		erase();
