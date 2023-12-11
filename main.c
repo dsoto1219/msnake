@@ -39,10 +39,11 @@ int main(void) {
 		},
 		.attire = HEAD_ATTIRE 
 	};
-	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, RIGHT);
+    direction d = RIGHT; /* Snake will always travel in this direction */
+	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
 
     int key;
-    direction d = RIGHT;
+	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
 		getmaxyx(stdscr, row, col); /* Get size of screen each time, in case of resize */
@@ -59,13 +60,26 @@ int main(void) {
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
 	   */
-		key = getch();
-		// if (key != ERR) {
-		// 	d = get_direction(key);
-		// 	if (d != opposite(head->part.direction)) {
-		// 		head->part.direction = d;
-		// 	}
-		// }
+		if ((key = getch()) != ERR) {
+			new_d = get_direction(key);
+			if (new_d != opposite(d)) {
+				d = new_d;
+			}
+		}
+
+		/* Prepend head */
+		part body_p = head->part;
+		body_p.attire = HEAD_ATTIRE;
+		dmoveobj(&body_p, d);
+
+		head->part.attire = BODY_ATTIRE;
+		head = insert(head, body_p);
+
+		pop(head);
+
+		if (coordsequal(head->part.coords, apple.coords)) {
+			growsnake(head, d);
+		}
 
 		refresh();
 		erase();

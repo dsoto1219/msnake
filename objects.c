@@ -5,6 +5,12 @@ void printobj(object *obj) {
     mvwaddch(stdscr, obj->coords.y, obj->coords.x, obj->attire);
 }
 
+bool coordsequal(coordinates c1, coordinates c2) {
+	bool xequal = (c1.x == c2.x);
+	bool yequal = (c1.y == c2.y);
+	return xequal && yequal;
+}
+
 void dmoveobj(object *obj, direction d) {
 	coordinates *c = &obj->coords;
 	switch (d) {

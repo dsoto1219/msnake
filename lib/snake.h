@@ -15,8 +15,10 @@ typedef struct dllsnake {
 } snake; 
 
 snake *createsnake(part head_p);
+snake *insert(snake *head, part p);
 snake *append(snake *head, part p);
 snake *growsnake(snake *head, direction d);
+snake *pop(snake *head);
 snake *lcreatesnake(part head_p, int l, direction start_d);
 void printsnake(snake *head);
 void freesnake(snake *head);

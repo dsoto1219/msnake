@@ -7,6 +7,8 @@ typedef struct {
     int y, x;
 } coordinates;
 
+bool coordsequal(coordinates c1, coordinates c2);
+
 /* Wanted the snake's parts to inherit this */
 typedef struct {
 	coordinates coords;

@@ -18,6 +18,22 @@ snake *createsnake(part head_p) {
 	return head;
 }
 
+snake *insert(snake *head, part body_p) {
+	snake *new = (snake *)malloc(sizeof(snake));
+	if (new == NULL) {
+		fprintf(stderr, "Unable to allocate memory for new part");
+		exit(1);
+	}
+	new->part = body_p;
+
+	new->prev = NULL;
+	new->next = head;
+	head->prev = new;
+	head = new;
+
+	return head;
+}
+
 /*
 	Appends a part to snake linked list. This is a generic function for adding an element to a doubly linked list. 
 	Returns the (new) tail of the snake.
@@ -53,6 +69,16 @@ snake *growsnake(snake *head, direction d) {
 	dmoveobj(&new->part, opposite(d));
 
 	return new;
+}
+
+snake *pop(snake *head) {
+	snake *ptr;
+	for (ptr = head; ptr->next != NULL; ptr = ptr->next);
+	snake *new_tail = ptr->prev;
+	new_tail->next = NULL;
+	free(ptr);
+
+	return new_tail;
 }
 
 /*
