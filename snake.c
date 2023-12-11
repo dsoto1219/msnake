@@ -18,6 +18,7 @@ snake *createsnake(part head_p) {
 	return head;
 }
 
+/* Add element to beginning of snake linked list */
 snake *insert(snake *head, part body_p) {
 	snake *new = (snake *)malloc(sizeof(snake));
 	if (new == NULL) {
@@ -31,7 +32,7 @@ snake *insert(snake *head, part body_p) {
 	head->prev = new;
 	head = new;
 
-	return head;
+	return new;
 }
 
 /*
@@ -60,7 +61,10 @@ snake *append(snake *head, part p) {
 	return new; 
 }
 
-/* Inputs: head of the snake, direction of the snake */
+/*
+   growsnake appends a body part to the end of the snake. Using the inputted direction,
+   it ensures that the part is in the correct position.
+*/
 snake *growsnake(snake *head, direction d) {
 	part body_p = { .attire = BODY_ATTIRE };
 	snake *new = append(head, body_p); 
@@ -96,8 +100,16 @@ void printsnake(snake *head) {
 		printobj(&ptr->part);
 }
 
-void movesnake(snake *head, direction d) {
-	// TODO
+snake *movesnake(snake *head, snake *tail, direction d) {
+	part *currenthead_pp = &head->part;
+	part newhead_p = *currenthead_pp;
+	dmoveobj(&newhead_p, d);
+	currenthead_pp->attire = BODY_ATTIRE;
+
+	head = insert(head, newhead_p);
+	pop(tail);
+
+	return head;
 }
 
 /*

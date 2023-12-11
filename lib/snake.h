@@ -6,6 +6,7 @@
 #define HEAD_ATTIRE '@'
 #define BODY_ATTIRE 'O'
 #define FOOD_ATTIRE '$'
+#define DEAD_ATTIRE 'X'
 
 /* Snake: Doubly Linked list of Parts */
 typedef struct dllsnake {
@@ -20,6 +21,7 @@ snake *append(snake *head, part p);
 snake *growsnake(snake *head, direction d);
 snake *pop(snake *head);
 snake *lcreatesnake(part head_p, int l, direction start_d);
+snake *movesnake(snake *head, snake *tail, direction d);
 void printsnake(snake *head);
 void freesnake(snake *head);
 

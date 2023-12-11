@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "lib/direction.h"
+#include "lib/objects.h"
 #include "lib/snake.h"
 
 #define TIMEOUT_DELAY 125		/* Delay is in ms */
@@ -39,6 +40,7 @@ int main(void) {
 	};
     direction d = RIGHT; /* Snake will always travel in this direction */
 	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
+	snake *tail = head;
 
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
@@ -49,39 +51,33 @@ int main(void) {
 		mvwprintw(stdscr, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
 		mvwprintw(stdscr, row - 1, 0, "direction=%s, length=%d", dirtostr(d), length);
 
+		/* Print apple and snake */
 		printobj(&apple);
-
 		printsnake(head);
 
-		/* Change state */
+		/* Change game state */
 		/* 
 		   Always call getch() after printing snake. That way, the snake gets printed and 
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
 	   */
+
 		if ((key = getch()) != ERR) {
 			new_d = get_direction(key);
 			if (new_d != opposite(d)) {
 				d = new_d;
 			}
 		}
+		if (d != NONE) {
+			head = movesnake(head, tail, d);
+			coordinates headpart_c = head->part.coords;
+			if (coordsequal(headpart_c, apple.coords)) {
+				tail = growsnake(head, d);
+				length++;
 
-		/* Prepend head */
-		part body_p = head->part;
-		body_p.attire = HEAD_ATTIRE;
-		dmoveobj(&body_p, d);
-
-		head->part.attire = BODY_ATTIRE;
-		head = insert(head, body_p);
-
-		pop(head);
-
-		if (coordsequal(head->part.coords, apple.coords)) {
-			growsnake(head, d);
-			length++;
-
-			apple.coords.y = rand() % row;
-			apple.coords.x = rand() % col;
+				apple.coords.y = rand() % row;
+				apple.coords.x = rand() % col;
+			}
 		}
 
 		refresh();
