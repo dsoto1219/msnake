@@ -44,6 +44,7 @@ int main(void) {
 
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
+	bool dead = FALSE;
 	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
@@ -68,9 +69,18 @@ int main(void) {
 				d = new_d;
 			}
 		}
+		
 		if (d != NONE) {
 			head = movesnake(head, tail, d);
 			coordinates headpart_c = head->part.coords;
+			for (snake *ptr = head->next; ptr != NULL; ptr = ptr->next) {
+				if (coordsequal(headpart_c, ptr->part.coords)) {
+					d = NONE;
+					head->part.attire = DEAD_ATTIRE;
+					ptr->part.attire = DEAD_ATTIRE;
+					dead = TRUE;
+				}
+			}
 			if (coordsequal(headpart_c, apple.coords)) {
 				tail = growsnake(head, d);
 				length++;
