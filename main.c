@@ -9,8 +9,6 @@
 #define INITIAL_SNAKE_LENGTH 3
 
 int main(void) {
-    // setlocale(LC_ALL, "");
-
 	initscr();					/* Start curses mode */
 	noecho();					/* getch() doesn't print the character it receives */
     curs_set(0);				/* Hide cursor */
@@ -43,12 +41,13 @@ int main(void) {
 	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
 
     int key;
+	int length = INITIAL_SNAKE_LENGTH;
 	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
 		getmaxyx(stdscr, row, col); /* Get size of screen each time, in case of resize */
 		mvwprintw(stdscr, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
-		mvwprintw(stdscr, row - 1, 0, "direction=%s", dirtostr(d));
+		mvwprintw(stdscr, row - 1, 0, "direction=%s, length=%d", dirtostr(d), length);
 
 		printobj(&apple);
 
@@ -79,6 +78,10 @@ int main(void) {
 
 		if (coordsequal(head->part.coords, apple.coords)) {
 			growsnake(head, d);
+			length++;
+
+			apple.coords.y = rand() % row;
+			apple.coords.x = rand() % col;
 		}
 
 		refresh();
