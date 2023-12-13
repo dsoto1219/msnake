@@ -24,8 +24,8 @@ int main(void) {
 	/* Init apple */
 	food apple = { 
 		.coords = {
-			.y = rand() % row, 
-			.x = rand() % col
+			.y = rand() % (row - 1), 
+			.x = rand() % (col - 1)
 		},
 		.attire = FOOD_ATTIRE 
 	};
@@ -84,9 +84,8 @@ int main(void) {
 			if (coordsequal(headpart_c, apple.coords)) {
 				tail = growsnake(head, d);
 				length++;
-
-				apple.coords.y = rand() % row;
-				apple.coords.x = rand() % col;
+				apple.coords.y = rand() % (row - 1);
+				apple.coords.x = rand() % (col - 1);
 			}
 		}
 
