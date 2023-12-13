@@ -95,9 +95,13 @@ snake *lcreatesnake(part head_p, int l, direction start_d) {
 	return head;
 }
 
-void printsnake(snake *head) {
+void wprintsnake(WINDOW *win, snake *head) {
 	for (snake *ptr = head; ptr != NULL; ptr = ptr->next)
-		printobj(&ptr->part);
+		wprintobj(win, &ptr->part);
+}
+
+void printsnake(snake *head) {
+	wprintsnake(stdscr, head);
 }
 
 snake *movesnake(snake *head, snake *tail, direction d) {

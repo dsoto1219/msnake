@@ -10,15 +10,15 @@
 #define INITIAL_SNAKE_LENGTH 3
 
 int main(void) {
-	initscr();					/* Start curses mode */
+	WINDOW *win = initscr();	/* Start curses mode, save stdscr */
 	noecho();					/* getch() doesn't print the character it receives */
     curs_set(0);				/* Hide cursor */
-    keypad(stdscr, TRUE);		/* Enable F1,...,F12 and arrow keys in stdscr */
+    keypad(win, TRUE);			/* Enable F1,...,F12 and arrow keys */
     timeout(TIMEOUT_DELAY);
 
 	/* Save window boundaries to row, col */
     int row, col;
-    getmaxyx(stdscr, row, col);
+    getmaxyx(win, row, col);
 
 	srand(time(NULL));
 	/* Init apple */
@@ -48,13 +48,13 @@ int main(void) {
 	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
-		getmaxyx(stdscr, row, col); /* Get size of screen each time, in case of resize */
-		mvwprintw(stdscr, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
-		mvwprintw(stdscr, row - 1, 0, "direction=%s, length=%d", dirtostr(d), length);
+		getmaxyx(win, row, col); /* Get size of screen each time, in case of resize */
+		mvwprintw(win, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
+		mvwprintw(win, row - 1, 0, "direction=%s, length=%d", dirtostr(d), length);
 
 		/* Print apple and snake */
-		printobj(&apple);
-		printsnake(head);
+		wprintobj(win, &apple);
+		wprintsnake(win, head);
 
 		/* Change game state */
 		/* 

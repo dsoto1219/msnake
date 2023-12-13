@@ -1,8 +1,12 @@
 #include <ncurses.h>
 #include "lib/objects.h"
 
+void wprintobj(WINDOW *win, object *obj) {
+    mvwaddch(win, obj->coords.y, obj->coords.x, obj->attire);
+}
+
 void printobj(object *obj) {
-    mvwaddch(stdscr, obj->coords.y, obj->coords.x, obj->attire);
+	wprintobj(stdscr, obj);
 }
 
 bool coordsequal(coordinates c1, coordinates c2) {

@@ -1,6 +1,7 @@
 #ifndef OBJECTS_H
 #define OBJECTS_H
 
+#include <ncurses.h>
 #include "direction.h"
 
 typedef struct {
@@ -15,10 +16,10 @@ typedef struct {
     char attire;
 } object;
 
-
 typedef object food;
 typedef object part;
 
+void wprintobj(WINDOW *win, object *obj);
 void printobj(object *obj);
 void dmoveobj(object *obj, direction d);
 
