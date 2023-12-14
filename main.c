@@ -32,16 +32,6 @@ int main(void) {
     int row, col;
     getmaxyx(gamewin, row, col);
 
-	srand(time(NULL));
-	/* Init apple */
-	food apple = { 
-		.coords = {
-			.y = rand() % (row - 2) + 1, 
-			.x = rand() % (col - 2) + 1,
-		},
-		.attire = FOOD_ATTIRE 
-	};
-
 	// Init head
 	part head_p = { 
 		.coords = {
@@ -54,17 +44,25 @@ int main(void) {
 	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
 	snake *tail = head;
 
+	srand(time(NULL));
+	/* Init apple */
+	food apple = { .attire = FOOD_ATTIRE };
+	do {
+		randcoords(&apple, row, col);
+	} while (touchingsnake(head, apple, true));
+
+
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
 	bool dead = FALSE;
 	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
+		// Call box first, so other elements can be printed on top. 
 		box(gamewin, 0, 0);
 		mvwprintw(gamewin, 0, 1, "(%d, %d)", head->part.coords.x, head->part.coords.y);
 		mvwprintw(gamewin, row + 1, 1, "direction=%s,length=%d", dirtostr(d), length);
 
-		/* Print apple and snake */
 		wprintobj(gamewin, &apple);
 		wprintsnake(gamewin, head);
 
