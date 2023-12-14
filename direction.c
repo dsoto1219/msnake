@@ -1,62 +1,40 @@
 #include <ncurses.h>
 #include "lib/direction.h"
 
-direction get_direction(int key) {
+#define PAUSE_KEY 'p'
+#define HELP_KEY 'h'
+
+direction get_direction(int key, direction current_d) {
     switch (key) {
-		case KEY_RIGHT:
-			return RIGHT;
-			break;
-		case KEY_LEFT:
-			return LEFT;
-			break;
-		case KEY_UP:
-			return UP;
-			break;
-		case KEY_DOWN:
-			return DOWN;
-			break;
-		default: return NONE;
+		case KEY_RIGHT: return RIGHT;
+		case KEY_LEFT: return LEFT;
+		case KEY_UP: return UP;
+		case KEY_DOWN: return DOWN;
+		case PAUSE_KEY:
+		case HELP_KEY: return NONE;
+		default: return current_d;
     }
 }
 
 direction opposite(direction d) {
     switch (d) {
-		case RIGHT:
-			return LEFT;
-			break;
-		case LEFT:
-			return RIGHT;
-			break;
-		case UP:
-			return DOWN;
-			break;
-		case DOWN:
-			return UP;
-			break;
-		case NONE:
-			return NONE;
-			break;
-		default: return NONE;
+		case RIGHT: return LEFT;
+		case LEFT: return RIGHT;
+		case UP: return DOWN;
+		case DOWN: return UP;
+		case NONE: return NONE;
+		default: return d;
     }
 }
 
 char *dirtostr(direction d) {
     switch (d) {
-		case RIGHT:
-			return "RIGHT";
-			break;
-		case LEFT:
-			return "LEFT";
-			break;
-		case UP:
-			return "UP";
-			break;
-		case DOWN:
-			return "DOWN";
-			break;
-		case NONE:
-			return "NONE";
-			break;
-		default: return "NONE";
+		case RIGHT: return "RIGHT";
+		case LEFT: return "LEFT";
+		case UP: return "UP";
+		case DOWN: return "DOWN";
+		case NONE: return "NONE";
+		// UND = Undefined
+		default: return "UND";
     }
 }

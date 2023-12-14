@@ -9,7 +9,7 @@ typedef enum direction {
     DOWN
 } direction;
 
-direction get_direction(int key);
+direction get_direction(int key, direction current_d);
 direction opposite(direction d);
 char *dirtostr(direction d);
 
