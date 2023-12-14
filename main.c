@@ -11,10 +11,9 @@
 
 int main(void) {
 	initscr();					/* Start curses mode */
-	start_color();
     curs_set(0);				/* Hide cursor */
 
-	int height = 12, width = 40;
+	int height = 15, width = 50;
 	if (height > LINES || width > COLS) {
 		curs_set(1);
 		endwin();
@@ -32,7 +31,6 @@ int main(void) {
 	/* Save bottom-right coordinates of window to row, col */
     int row, col;
     getmaxyx(win, row, col);
-	/* Window boundaries are not inclusive (remember, origin is at the top-left) */
 	row = row - 2;
 	col = col - 2;
 
@@ -71,9 +69,7 @@ int main(void) {
 		/* Print apple and snake */
 		init_pair(1, COLOR_RED, COLOR_BLACK);
 		wprintobj(win, &apple);
-		attron(COLOR_PAIR(1));
 		wprintsnake(win, head);
-		attroff(COLOR_PAIR(1));
 
 		/* Change game state */
 		/* 
