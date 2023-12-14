@@ -10,22 +10,38 @@
 #define INITIAL_SNAKE_LENGTH 3
 
 int main(void) {
-	WINDOW *win = initscr();	/* Start curses mode, save stdscr */
-	noecho();					/* getch() doesn't print the character it receives */
+	initscr();					/* Start curses mode */
+	start_color();
     curs_set(0);				/* Hide cursor */
-    keypad(win, TRUE);			/* Enable F1,...,F12 and arrow keys */
-    timeout(TIMEOUT_DELAY);
 
-	/* Save window boundaries to row, col */
+	int height = 12, width = 40;
+	if (height > LINES || width > COLS) {
+		curs_set(1);
+		endwin();
+		fprintf(stderr, "Current window size (%d x %d) is too small!\n", LINES, COLS);
+		exit(EXIT_FAILURE);
+	}
+	int starty = (LINES - height) / 2;
+	int startx = (COLS - width) / 2; 
+	WINDOW *win = newwin(height, width, starty, startx);
+
+	noecho();					/* getch() doesn't print the character it receives */
+    keypad(win, TRUE);			/* Enable F1,...,F12 and arrow keys */
+    wtimeout(win, TIMEOUT_DELAY);
+
+	/* Save bottom-right coordinates of window to row, col */
     int row, col;
     getmaxyx(win, row, col);
+	/* Window boundaries are not inclusive (remember, origin is at the top-left) */
+	row = row - 2;
+	col = col - 2;
 
 	srand(time(NULL));
 	/* Init apple */
 	food apple = { 
 		.coords = {
-			.y = rand() % (row - 1), 
-			.x = rand() % (col - 1)
+			.y = row, 
+			.x = col,
 		},
 		.attire = FOOD_ATTIRE 
 	};
@@ -48,13 +64,16 @@ int main(void) {
 	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
-		getmaxyx(win, row, col); /* Get size of screen each time, in case of resize */
-		mvwprintw(win, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
-		mvwprintw(win, row - 1, 0, "direction=%s, length=%d", dirtostr(d), length);
+		box(win, 0, 0);
+		mvwprintw(win, 0, 1, "(%d, %d)", head->part.coords.x, head->part.coords.y);
+		mvwprintw(win, row + 1, 1, "direction=%s,length=%d", dirtostr(d), length);
 
 		/* Print apple and snake */
+		init_pair(1, COLOR_RED, COLOR_BLACK);
 		wprintobj(win, &apple);
+		attron(COLOR_PAIR(1));
 		wprintsnake(win, head);
+		attroff(COLOR_PAIR(1));
 
 		/* Change game state */
 		/* 
@@ -62,8 +81,7 @@ int main(void) {
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
 	   */
-
-		if ((key = getch()) != ERR) {
+		if ((key = wgetch(win)) != ERR) {
 			new_d = get_direction(key);
 			if (new_d != opposite(d)) {
 				d = new_d;
@@ -84,13 +102,13 @@ int main(void) {
 			if (coordsequal(headpart_c, apple.coords)) {
 				tail = growsnake(head, d);
 				length++;
-				apple.coords.y = rand() % (row - 1);
-				apple.coords.x = rand() % (col - 1);
+				apple.coords.y = (rand() % row) + 1;
+				apple.coords.x = (rand() % col) + 1;
 			}
 		}
 
-		refresh();
-		erase();
+		wrefresh(win);
+		werase(win);
     }
 
 	freesnake(head);
