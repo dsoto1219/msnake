@@ -89,7 +89,7 @@ int main(void) {
 				dead = TRUE;
 			}
 			if (coordsequal(head->part.coords, apple.coords)) {
-				tail = growsnake(head, d);
+				tail = growsnake(tail, d);
 				length++;
 				do {
 					randcoords(&apple, row, col);
