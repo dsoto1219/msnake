@@ -83,13 +83,12 @@ int main(void) {
 		
 		if (d != NONE) {
 			head = movesnake(head, tail, d);
-			coordinates headpart_c = head->part.coords;
 			if (touchingsnake(head, head->part, false)) {
 				d = NONE;
 				head->part.attire = DEAD_ATTIRE;
 				dead = TRUE;
 			}
-			if (coordsequal(headpart_c, apple.coords)) {
+			if (coordsequal(head->part.coords, apple.coords)) {
 				tail = growsnake(head, d);
 				length++;
 				do {

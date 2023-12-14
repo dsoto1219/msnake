@@ -86,7 +86,7 @@ snake *pop(snake *head) {
 }
 
 /*
-   Creates a snake of a given length using the inputted head and body parts.
+   Creates a snake of a given length using the inputted head and body parts. 
 */
 snake *lcreatesnake(part head_p, int l, direction start_d) {
 	snake *head = createsnake(head_p);
@@ -116,6 +116,16 @@ snake *movesnake(snake *head, snake *tail, direction d) {
 	return head;
 }
 
+/* 
+   Function for determining whether the inputted object is touching the snake (i.e.
+   the object and some part of the snake share the same coordinates). 
+
+   This function's last argument lets the user decide whether to include the head as one of 
+   the parts to check the object against; this is because this function is used to determine 
+   whether the snake head is touching some part of its body during the game. If the snake head 
+   were always included, then during this check the snake would always techincally be "touching
+   itself" (please excuse my poor choice of words).
+*/
 bool touchingsnake(snake *head, object obj, bool include_head) {
 	snake *ptr = head;
 	if (include_head == false) ptr = head->next;
@@ -128,9 +138,11 @@ bool touchingsnake(snake *head, object obj, bool include_head) {
 }
 
 /*
-   Function for freeing the snake linked list. 
-   In any other case, I wouldn't use a recursive solution for safety reasons. However, CS50 taught us this recursive 
-   algorithm for freeing the snake in the shorts that I relied on to build this project, so I'm staying with this.
+   Recursive function for freeing the snake linked list. 
+
+   In any other case, I wouldn't use a recursive solution for safety reasons. However, 
+   the shorts from CS50 that I relied on to build this project taught this method, 
+   so I'm staying with this.
 */
 void freesnake(snake *head) {
 	if (head == NULL) 
