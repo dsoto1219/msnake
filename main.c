@@ -31,15 +31,13 @@ int main(void) {
 	/* Save bottom-right coordinates of gamewindow to row, col */
     int row, col;
     getmaxyx(gamewin, row, col);
-	row = row - 2;
-	col = col - 2;
 
 	srand(time(NULL));
 	/* Init apple */
 	food apple = { 
 		.coords = {
-			.y = row, 
-			.x = col,
+			.y = rand() % (row - 2) + 1, 
+			.x = rand() % (col - 2) + 1,
 		},
 		.attire = FOOD_ATTIRE 
 	};
@@ -67,7 +65,6 @@ int main(void) {
 		mvwprintw(gamewin, row + 1, 1, "direction=%s,length=%d", dirtostr(d), length);
 
 		/* Print apple and snake */
-		init_pair(1, COLOR_RED, COLOR_BLACK);
 		wprintobj(gamewin, &apple);
 		wprintsnake(gamewin, head);
 
