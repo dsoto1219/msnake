@@ -60,8 +60,10 @@ int main(void) {
 		/* Set and Print Background and Objects */
 		// Call box first, so other elements can be printed on top. 
 		box(gamewin, 0, 0);
-		mvwprintw(gamewin, 0, 1, "(%d, %d)", head->part.coords.x, head->part.coords.y);
-		mvwprintw(gamewin, row + 1, 1, "direction=%s,length=%d", dirtostr(d), length);
+		mvwprintw(gamewin, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
+		mvwprintw(gamewin, row - 1, 0, "direction=%s,length=%d", dirtostr(d), length);
+		// The length of the help message is 16
+		mvwprintw(gamewin, row - 1, col - 16, "Press h for help");
 
 		wprintobj(gamewin, &apple);
 		wprintsnake(gamewin, head);
