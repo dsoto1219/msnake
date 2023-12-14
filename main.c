@@ -17,20 +17,20 @@ int main(void) {
 	if (height > LINES || width > COLS) {
 		curs_set(1);
 		endwin();
-		fprintf(stderr, "Current window size (%d x %d) is too small!\n", LINES, COLS);
+		fprintf(stderr, "Current gamewindow size (%d x %d) is too small, must be at least %d x %d!\n", LINES, COLS, height, width);
 		exit(EXIT_FAILURE);
 	}
 	int starty = (LINES - height) / 2;
 	int startx = (COLS - width) / 2; 
-	WINDOW *win = newwin(height, width, starty, startx);
+	WINDOW *gamewin = newwin(height, width, starty, startx);
 
 	noecho();					/* getch() doesn't print the character it receives */
-    keypad(win, TRUE);			/* Enable F1,...,F12 and arrow keys */
-    wtimeout(win, TIMEOUT_DELAY);
+    keypad(gamewin, TRUE);			/* Enable F1,...,F12 and arrow keys */
+    wtimeout(gamewin, TIMEOUT_DELAY);
 
-	/* Save bottom-right coordinates of window to row, col */
+	/* Save bottom-right coordinates of gamewindow to row, col */
     int row, col;
-    getmaxyx(win, row, col);
+    getmaxyx(gamewin, row, col);
 	row = row - 2;
 	col = col - 2;
 
@@ -62,14 +62,14 @@ int main(void) {
 	direction new_d;
     while (true) {
 		/* Set and Print Background and Objects */
-		box(win, 0, 0);
-		mvwprintw(win, 0, 1, "(%d, %d)", head->part.coords.x, head->part.coords.y);
-		mvwprintw(win, row + 1, 1, "direction=%s,length=%d", dirtostr(d), length);
+		box(gamewin, 0, 0);
+		mvwprintw(gamewin, 0, 1, "(%d, %d)", head->part.coords.x, head->part.coords.y);
+		mvwprintw(gamewin, row + 1, 1, "direction=%s,length=%d", dirtostr(d), length);
 
 		/* Print apple and snake */
 		init_pair(1, COLOR_RED, COLOR_BLACK);
-		wprintobj(win, &apple);
-		wprintsnake(win, head);
+		wprintobj(gamewin, &apple);
+		wprintsnake(gamewin, head);
 
 		/* Change game state */
 		/* 
@@ -77,7 +77,7 @@ int main(void) {
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
 	   */
-		if ((key = wgetch(win)) != ERR) {
+		if ((key = wgetch(gamewin)) != ERR) {
 			new_d = get_direction(key);
 			if (new_d != opposite(d)) {
 				d = new_d;
@@ -103,8 +103,8 @@ int main(void) {
 			}
 		}
 
-		wrefresh(win);
-		werase(win);
+		wrefresh(gamewin);
+		werase(gamewin);
     }
 
 	freesnake(head);
