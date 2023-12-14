@@ -116,6 +116,17 @@ snake *movesnake(snake *head, snake *tail, direction d) {
 	return head;
 }
 
+bool touchingsnake(snake *head, object obj, bool include_head) {
+	snake *ptr = head;
+	if (include_head == false) ptr = head->next;
+	while (ptr != NULL) {
+		if (coordsequal(obj.coords, ptr->part.coords)) 
+			return true;
+		ptr = ptr->next;
+	}
+	return false;
+}
+
 /*
    Function for freeing the snake linked list. 
    In any other case, I wouldn't use a recursive solution for safety reasons. However, CS50 taught us this recursive 

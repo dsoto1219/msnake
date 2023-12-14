@@ -22,5 +22,7 @@ typedef object part;
 void wprintobj(WINDOW *win, object *obj);
 void printobj(object *obj);
 void dmoveobj(object *obj, direction d);
+bool outofbounds(object obj, int row, int col);
+void randcoords(object *obj, int row, int col);
 
 #endif // !OBJECTS_H
