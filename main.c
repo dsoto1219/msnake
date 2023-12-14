@@ -17,7 +17,7 @@ int main(void) {
 	if (height > LINES || width > COLS) {
 		curs_set(1);
 		endwin();
-		fprintf(stderr, "Current gamewindow size (%d x %d) is too small, must be at least %d x %d!\n", LINES, COLS, height, width);
+		fprintf(stderr, "Current window size (%d x %d) is too small, must be at least %d x %d!\n", LINES, COLS, height, width);
 		exit(EXIT_FAILURE);
 	}
 	int starty = (LINES - height) / 2;
