@@ -95,9 +95,14 @@ snake *lcreatesnake(part head_p, int l, direction start_d) {
 	return head;
 }
 
+/* Prints each part of the snake. It prints the head last so that if the snake is dead,
+   the head's "dead" attire will be printed on top of the body, rather than vice versa. 
+*/
 void wprintsnake(WINDOW *win, snake *head) {
-	for (snake *ptr = head; ptr != NULL; ptr = ptr->next)
+	for (snake *ptr = head->next; ptr != NULL; ptr = ptr->next) {
 		wprintobj(win, &ptr->part);
+	}
+	wprintobj(win, &head->part);
 }
 
 void printsnake(snake *head) {

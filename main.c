@@ -75,7 +75,7 @@ int main(void) {
 		   screen is refreshed. 
 	   */
 		if ((key = wgetch(gamewin)) != ERR) {
-			new_d = get_direction(key);
+			new_d = get_direction(key, d);
 			if (new_d != opposite(d)) {
 				d = new_d;
 			}
