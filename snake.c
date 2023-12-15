@@ -152,6 +152,12 @@ bool touchingsnake(snake *head, object obj, bool include_head) {
 	return false;
 }
 
+void nosnakerandcoords(snake *head, object *obj, int row, int col) {
+	do {
+		randcoords(obj, row, col);
+	} while (touchingsnake(head, *obj, true));
+}
+
 /*
    Recursive function for freeing the snake linked list. 
 

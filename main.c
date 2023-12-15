@@ -49,9 +49,7 @@ int main(void) {
 	srand(time(NULL));
 	/* Init apple */
 	food apple = { .attire = FOOD_ATTIRE };
-	do {
-		randcoords(&apple, row, col);
-	} while (touchingsnake(head, apple, true));
+	nosnakerandcoords(head, &apple, row, col);
 
 	// Set the colors for the apple and the snake, respectively
 	init_pair(1, COLOR_RED, COLOR_BLACK); 
@@ -99,9 +97,7 @@ int main(void) {
 			if (coordsequal(head->part.coords, apple.coords)) {
 				tail = growsnake(tail, d);
 				length++;
-				do {
-					randcoords(&apple, row, col);
-				} while (touchingsnake(head, apple, true));
+				nosnakerandcoords(head, &apple, row, col);
 			}
 		}
 

@@ -27,6 +27,7 @@ void printsnake(snake *head);
 void wcolorprintsnake(WINDOW *win, int color, snake *head);
 void colorprintsnake(int color, snake *head);
 bool touchingsnake(snake *head, object obj, bool include_head);
+void nosnakerandcoords(snake *head, object *obj, int row, int col);
 void freesnake(snake *head);
 
 #endif // !SNAKE_H
