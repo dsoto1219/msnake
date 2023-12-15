@@ -100,9 +100,9 @@ snake *lcreatesnake(part head_p, int l, direction start_d) {
 */
 void wprintsnake(WINDOW *win, snake *head) {
 	for (snake *ptr = head->next; ptr != NULL; ptr = ptr->next) {
-		wprintobj(win, &ptr->part);
+		wprintobj(win, ptr->part);
 	}
-	wprintobj(win, &head->part);
+	wprintobj(win, head->part);
 }
 
 void printsnake(snake *head) {

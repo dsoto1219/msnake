@@ -53,10 +53,10 @@ int main(void) {
 		randcoords(&apple, row, col);
 	} while (touchingsnake(head, apple, true));
 
-
 	// Set the colors for the apple and the snake, respectively
 	init_pair(1, COLOR_RED, COLOR_BLACK); 
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
+
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
 	direction new_d;
@@ -70,7 +70,7 @@ int main(void) {
 		// The length of the help message is 16
 		mvwprintw(gamewin, row - 1, col - 16, "Press h for help");
 
-		wcolorprintobj(gamewin, COLOR_PAIR(1), &apple);
+		wcolorprintobj(gamewin, COLOR_PAIR(1), apple);
 		wcolorprintsnake(gamewin, COLOR_PAIR(2), head);
 
 		/* Change game state */

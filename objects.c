@@ -8,21 +8,21 @@ bool coordsequal(coordinates c1, coordinates c2) {
 	return xequal && yequal;
 }
 
-void wprintobj(WINDOW *win, object *obj) {
-    mvwaddch(win, obj->coords.y, obj->coords.x, obj->attire);
+void wprintobj(WINDOW *win, object obj) {
+    mvwaddch(win, obj.coords.y, obj.coords.x, obj.attire);
 }
 
-void printobj(object *obj) {
+void printobj(object obj) {
 	wprintobj(stdscr, obj);
 }
 
-void wcolorprintobj(WINDOW *win, int color, object *obj) {
+void wcolorprintobj(WINDOW *win, int color, object obj) {
 	wattron(win, color);
 	wprintobj(win, obj);
 	wattroff(win, color);
 }
 
-void colorprintobj(int color, object *obj) {
+void colorprintobj(int color, object obj) {
 	wcolorprintobj(stdscr, color, obj);
 }
 
