@@ -109,6 +109,16 @@ void printsnake(snake *head) {
 	wprintsnake(stdscr, head);
 }
 
+void wcolorprintsnake(WINDOW *win, int color, snake *head) {
+	wattron(win, color);
+	wprintsnake(win, head);
+	wattroff(win, color);
+}
+
+void colorprintsnake(int color, snake *head) {
+	wcolorprintsnake(stdscr, color, head);
+}
+
 snake *movesnake(snake *head, snake *tail, direction d) {
 	part *currenthead_pp = &head->part;
 	part newhead_p = *currenthead_pp;

@@ -24,6 +24,8 @@ snake *lcreatesnake(part head_p, int l, direction start_d);
 snake *movesnake(snake *head, snake *tail, direction d);
 void wprintsnake(WINDOW *win, snake *head);
 void printsnake(snake *head);
+void wcolorprintsnake(WINDOW *win, int color, snake *head);
+void colorprintsnake(int color, snake *head);
 bool touchingsnake(snake *head, object obj, bool include_head);
 void freesnake(snake *head);
 

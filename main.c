@@ -14,8 +14,6 @@ int main(void) {
 	initscr();					/* Start curses mode */
     curs_set(0);				/* Hide cursor */
 	start_color();
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
 	int height = 15, width = 50;
 	if (height > LINES || width > COLS) {
@@ -56,6 +54,9 @@ int main(void) {
 	} while (touchingsnake(head, apple, true));
 
 
+	// Set the colors for the apple and the snake, respectively
+	init_pair(1, COLOR_RED, COLOR_BLACK); 
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
 	direction new_d;
@@ -69,13 +70,8 @@ int main(void) {
 		// The length of the help message is 16
 		mvwprintw(gamewin, row - 1, col - 16, "Press h for help");
 
-		wattron(gamewin, COLOR_PAIR(1));
-		wprintobj(gamewin, &apple);
-		wattroff(gamewin, COLOR_PAIR(1));
-
-		wattron(gamewin, COLOR_PAIR(2));
-		wprintsnake(gamewin, head);
-		wattroff(gamewin, COLOR_PAIR(2));
+		wcolorprintobj(gamewin, COLOR_PAIR(1), &apple);
+		wcolorprintsnake(gamewin, COLOR_PAIR(2), head);
 
 		/* Change game state */
 		/* 

@@ -16,6 +16,16 @@ void printobj(object *obj) {
 	wprintobj(stdscr, obj);
 }
 
+void wcolorprintobj(WINDOW *win, int color, object *obj) {
+	wattron(win, color);
+	wprintobj(win, obj);
+	wattroff(win, color);
+}
+
+void colorprintobj(int color, object *obj) {
+	wcolorprintobj(stdscr, color, obj);
+}
+
 void dmoveobj(object *obj, direction d) {
 	coordinates *c = &obj->coords;
 	switch (d) {
