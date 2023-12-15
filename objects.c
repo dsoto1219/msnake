@@ -39,8 +39,9 @@ void dmoveobj(object *obj, direction d) {
 /* Returns of object is outside of given bounds, including the boundaries themselves. */
 bool outofbounds(object obj, int row, int col) {
 	bool toofar_up = obj.coords.y <= 0;
-	bool toofar_down = obj.coords.y >= row;
-	bool toofar_right = obj.coords.x >= col;
+	// We add the -1 to include the border around the window
+	bool toofar_down = obj.coords.y >= row - 1;
+	bool toofar_right = obj.coords.x >= col - 1;
 	bool toofar_left = obj.coords.x <= 0;
 	return (toofar_up || toofar_down || toofar_right || toofar_left);
 }

@@ -8,12 +8,14 @@
 
 #define TIMEOUT_DELAY 125		/* Delay is in ms */
 #define INITIAL_SNAKE_LENGTH 3
-#define WALLS_KILL false
+#define WALLS_KILL true
 
 int main(void) {
 	initscr();					/* Start curses mode */
     curs_set(0);				/* Hide cursor */
 	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
 	int height = 15, width = 50;
 	if (height > LINES || width > COLS) {
@@ -57,9 +59,7 @@ int main(void) {
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
 	direction new_d;
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_GREEN, COLOR_BLACK);
-
+	bool dead = false;
     while (true) {
 		/* Set and Print Background and Objects */
 		// Call box first, so other elements can be printed on top. 
@@ -92,7 +92,11 @@ int main(void) {
 		
 		if (d != NONE) {
 			head = movesnake(head, tail, d);
-			if (touchingsnake(head, head->part, false) || outofbounds(head->part, row, col)) {
+			dead = touchingsnake(head, head->part, false);
+			if (WALLS_KILL) {
+				dead = dead || outofbounds(head->part, row, col);
+			} 
+			if (dead) {
 				d = NONE;
 				head->part.attire = DEAD_ATTIRE;
 			}
