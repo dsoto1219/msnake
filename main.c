@@ -77,28 +77,37 @@ int main(void) {
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
 	   */
-		if ((key = wgetch(gamewin)) != ERR) {
-			new_d = get_direction(key, d);
-			if (new_d != opposite(d)) {
-				d = new_d;
+		key = wgetch(gamewin);
+		if (!dead) {
+			if (key != ERR) {
+				new_d = get_direction(key, d);
+				if (new_d != opposite(d)) {
+					d = new_d;
+				}
 			}
-		}
-		
-		if (d != NONE) {
-			head = movesnake(head, tail, d);
-			dead = touchingsnake(head, head->part, false);
-			if (WALLS_KILL) {
-				dead = dead || outofbounds(head->part, row, col);
-			} 
-			if (dead) {
-				d = NONE;
-				head->part.attire = DEAD_ATTIRE;
+			
+			if (d != NONE) {
+				head = movesnake(head, tail, d);
+				dead = touchingsnake(head, head->part, false);
+				if (WALLS_KILL) {
+					dead = dead || outofbounds(head->part, row, col);
+				} 
+				if (dead) {
+					d = NONE;
+					head->part.attire = DEAD_ATTIRE;
+				}
+				if (coordsequal(head->part.coords, apple.coords)) {
+					tail = growsnake(tail, d);
+					length++;
+					nosnakerandcoords(head, &apple, row, col);
+				}
 			}
-			if (coordsequal(head->part.coords, apple.coords)) {
-				tail = growsnake(tail, d);
-				length++;
-				nosnakerandcoords(head, &apple, row, col);
-			}
+		} else if (key == 'r') {
+			dead = false;
+			freesnake(head);
+			d = RIGHT;
+			head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
+			tail = head;
 		}
 
 		wrefresh(gamewin);
