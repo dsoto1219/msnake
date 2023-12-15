@@ -8,10 +8,12 @@
 
 #define TIMEOUT_DELAY 125		/* Delay is in ms */
 #define INITIAL_SNAKE_LENGTH 3
+#define WALLS_KILL false
 
 int main(void) {
 	initscr();					/* Start curses mode */
     curs_set(0);				/* Hide cursor */
+	start_color();
 
 	int height = 15, width = 50;
 	if (height > LINES || width > COLS) {
@@ -54,8 +56,10 @@ int main(void) {
 
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
-	bool dead = FALSE;
 	direction new_d;
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);
+
     while (true) {
 		/* Set and Print Background and Objects */
 		// Call box first, so other elements can be printed on top. 
@@ -65,8 +69,13 @@ int main(void) {
 		// The length of the help message is 16
 		mvwprintw(gamewin, row - 1, col - 16, "Press h for help");
 
+		wattron(gamewin, COLOR_PAIR(1));
 		wprintobj(gamewin, &apple);
+		wattroff(gamewin, COLOR_PAIR(1));
+
+		wattron(gamewin, COLOR_PAIR(2));
 		wprintsnake(gamewin, head);
+		wattroff(gamewin, COLOR_PAIR(2));
 
 		/* Change game state */
 		/* 
@@ -83,10 +92,9 @@ int main(void) {
 		
 		if (d != NONE) {
 			head = movesnake(head, tail, d);
-			if (touchingsnake(head, head->part, false)) {
+			if (touchingsnake(head, head->part, false) || outofbounds(head->part, row, col)) {
 				d = NONE;
 				head->part.attire = DEAD_ATTIRE;
-				dead = TRUE;
 			}
 			if (coordsequal(head->part.coords, apple.coords)) {
 				tail = growsnake(tail, d);
