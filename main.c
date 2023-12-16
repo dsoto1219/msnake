@@ -13,10 +13,13 @@
 
 int main(void) {
 	initscr();					/* Start curses mode */
+	// Non-window specific settings
     curs_set(0);				/* Hide cursor */
+	noecho();					/* getch() doesn't print the character it receives */
 	start_color();
 
-	int height = 15, width = 50;
+	// Create Game Window
+	int height = 12, width = 32;
 	if (height > LINES || width > COLS) {
 		curs_set(1);
 		endwin();
@@ -27,21 +30,23 @@ int main(void) {
 	int startx = (COLS - width) / 2; 
 	WINDOW *gamewin = newwin(height, width, starty, startx);
 
-	noecho();					/* getch() doesn't print the character it receives */
-    keypad(gamewin, TRUE);			/* Enable F1,...,F12 and arrow keys */
-    wtimeout(gamewin, TIMEOUT_DELAY);
+	// Settings for game window 
+    keypad(gamewin, TRUE);				/* Enable F1,...,F12 and arrow keys */
+    wtimeout(gamewin, TIMEOUT_DELAY);	/* Too complex to explain here, read docs */
 
-	/* Save bottom-right coordinates of gamewindow to row, col */
+	// Save bottom-right coordinates of gamewindow to row, col
     int row, col;
     getmaxyx(gamewin, row, col);
 
-	// Init head
+	srand(time(NULL));
+
+	// Init snake
     direction d = RIGHT; /* Snake will always travel in this direction */
 	snake *tail;
 	snake *head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, &tail, d);
 
-	srand(time(NULL));
 	/* Init apple */
+
 	food apple = { .attire = FOOD_ATTIRE };
 	nosnakerandcoords(head, &apple, row, col);
 
@@ -57,9 +62,10 @@ int main(void) {
 		// Call box first, so other elements can be printed on top. 
 		box(gamewin, 0, 0);
 		mvwprintw(gamewin, 0, 0, "(%d, %d)", head->part.coords.x, head->part.coords.y);
-		mvwprintw(gamewin, row - 1, 0, "direction=%s,length=%d", dirtostr(d), length);
+		mvwprintw(gamewin, row - 1, 0, "direction=%s", dirtostr(d));
 		// The length of the help message is 16
 		mvwprintw(gamewin, row - 1, col - 16, "Press h for help");
+		mvwprintw(gamewin, 0, col - 9, "length=%d", length);
 
 		wcolorprintobj(gamewin, COLOR_PAIR(1), apple);
 		wcolorprintsnake(gamewin, COLOR_PAIR(2), head);
@@ -101,6 +107,7 @@ int main(void) {
 		if (key == RESET_KEY) {
 			dead = false;
 			freesnake(head);
+
 			d = RIGHT;
 			head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, &tail, d);
 			length = INITIAL_SNAKE_LENGTH;
