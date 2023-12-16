@@ -4,10 +4,10 @@
 
 direction get_direction(int key, direction current_d) {
     switch (key) {
-		case KEY_RIGHT: return RIGHT;
-		case KEY_LEFT: return LEFT;
-		case KEY_UP: return UP;
-		case KEY_DOWN: return DOWN;
+		case RIGHT_KEY: return RIGHT;
+		case LEFT_KEY: return LEFT;
+		case UP_KEY: return UP;
+		case DOWN_KEY: return DOWN;
 		case PAUSE_KEY:
 		case HELP_KEY: return NONE;
 		default: return current_d;
