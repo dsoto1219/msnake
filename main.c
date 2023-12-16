@@ -102,13 +102,15 @@ int main(void) {
 					nosnakerandcoords(head, &apple, row, col);
 				}
 			}
-		} else if (key == 'r') {
+		} 
+		if (key == 'r') {
 			dead = false;
 			freesnake(head);
 			d = RIGHT;
 			head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
 			tail = head;
-		}
+			nosnakerandcoords(head, &apple, row, col);
+		} 
 
 		wrefresh(gamewin);
 		werase(gamewin);
