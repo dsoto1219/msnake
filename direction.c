@@ -1,8 +1,6 @@
 #include <ncurses.h>
 #include "lib/direction.h"
-
-#define PAUSE_KEY 'p'
-#define HELP_KEY 'h'
+#include "lib/keys.h"
 
 direction get_direction(int key, direction current_d) {
     switch (key) {

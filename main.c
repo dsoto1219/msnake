@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "lib/direction.h"
+#include "lib/keys.h"
 #include "lib/objects.h"
 #include "lib/snake.h"
 
@@ -49,9 +50,9 @@ int main(void) {
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
     int key;
-	int length = INITIAL_SNAKE_LENGTH;
+	int length = INITIAL_SNAKE_LENGTH; /* Variable to dynamically track snake length */
 	bool dead = false;
-    while (true) {
+    while (key != QUIT_KEY) {
 		/* Set and Print Background and Objects */
 		// Call box first, so other elements can be printed on top. 
 		box(gamewin, 0, 0);
@@ -97,7 +98,7 @@ int main(void) {
 				}
 			}
 		} 
-		if (key == 'r') {
+		if (key == RESET_KEY) {
 			dead = false;
 			freesnake(head);
 			d = RIGHT;
