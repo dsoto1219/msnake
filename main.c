@@ -36,8 +36,8 @@ int main(void) {
 
 	// Init head
     direction d = RIGHT; /* Snake will always travel in this direction */
-	snake *head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, d);
-	snake *tail = head;
+	snake *tail;
+	snake *head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, &tail, d);
 
 	srand(time(NULL));
 	/* Init apple */
@@ -80,6 +80,7 @@ int main(void) {
 			
 			if (d != NONE) {
 				head = movesnake(head, tail, d);
+
 				dead = touchingsnake(head, head->part, false);
 				if (WALLS_KILL) {
 					dead = dead || outofbounds(head->part, row, col);
@@ -88,6 +89,7 @@ int main(void) {
 					d = NONE;
 					head->part.attire = DEAD_ATTIRE;
 				}
+
 				if (coordsequal(head->part.coords, apple.coords)) {
 					tail = growsnake(tail, d);
 					length++;
@@ -99,8 +101,7 @@ int main(void) {
 			dead = false;
 			freesnake(head);
 			d = RIGHT;
-			head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, d);
-			tail = head;
+			head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, &tail, d);
 			length = INITIAL_SNAKE_LENGTH;
 			nosnakerandcoords(head, &apple, row, col);
 		} 

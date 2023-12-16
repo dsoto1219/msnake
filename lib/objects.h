@@ -5,7 +5,8 @@
 #include "direction.h"
 
 typedef struct {
-    int y, x;
+    int y; 
+	int x;
 } coordinates;
 
 bool coordsequal(coordinates c1, coordinates c2);
@@ -16,9 +17,6 @@ typedef struct {
     char attire;
 } object;
 
-typedef object food;
-typedef object part;
-
 void wprintobj(WINDOW *win, object obj);
 void printobj(object obj);
 void wcolorprintobj(WINDOW *win, int color, object obj);
@@ -26,5 +24,8 @@ void colorprintobj(int color, object obj);
 void dmoveobj(object *obj, direction d);
 bool outofbounds(object obj, int row, int col);
 void randcoords(object *obj, int row, int col);
+
+typedef object food; 
+typedef object part;
 
 #endif // !OBJECTS_H

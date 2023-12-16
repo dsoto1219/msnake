@@ -86,9 +86,15 @@ snake *pop(snake *head) {
 }
 
 /*
-   Creates a snake of a given length using the inputted head and body parts. 
+   Creates a snake of a given length using the inputted head and body parts. Since it uses
+   growsnake to grow the snake to the given length, it takes in a starting direction as an 
+   input to ensure parts are placed in the correct positions. The function returns the head of 
+   the snake.
+
+   Since growsnake() returns the tail of the snake, the user can input a pointer variable 
+   to the tail to initialize the tail pointer in the program.
 */
-snake *lcreatesnake(int init_y, int init_x, int length, direction start_d) {
+snake *lcreatesnake(int init_y, int init_x, int length, snake **tail, direction start_d) {
 	part head_p = { 
 		.coords = {
 			.y = init_y,
@@ -98,7 +104,8 @@ snake *lcreatesnake(int init_y, int init_x, int length, direction start_d) {
 	};
 	snake *head = createsnake(head_p);
 	for (int i = 1; i < length; i++)
-		growsnake(head, start_d);
+		*tail = growsnake(head, start_d);
+	
 	return head;
 }
 
