@@ -35,15 +35,8 @@ int main(void) {
     getmaxyx(gamewin, row, col);
 
 	// Init head
-	part head_p = { 
-		.coords = {
-			.y = row / 2,
-			.x = col / 2,
-		},
-		.attire = HEAD_ATTIRE 
-	};
     direction d = RIGHT; /* Snake will always travel in this direction */
-	snake *head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
+	snake *head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, d);
 	snake *tail = head;
 
 	srand(time(NULL));
@@ -57,7 +50,6 @@ int main(void) {
 
     int key;
 	int length = INITIAL_SNAKE_LENGTH;
-	direction new_d;
 	bool dead = false;
     while (true) {
 		/* Set and Print Background and Objects */
@@ -80,7 +72,7 @@ int main(void) {
 		key = wgetch(gamewin);
 		if (!dead) {
 			if (key != ERR) {
-				new_d = get_direction(key, d);
+				direction new_d = get_direction(key, d);
 				if (new_d != opposite(d)) {
 					d = new_d;
 				}
@@ -107,8 +99,9 @@ int main(void) {
 			dead = false;
 			freesnake(head);
 			d = RIGHT;
-			head = lcreatesnake(head_p, INITIAL_SNAKE_LENGTH, d);
+			head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, d);
 			tail = head;
+			length = INITIAL_SNAKE_LENGTH;
 			nosnakerandcoords(head, &apple, row, col);
 		} 
 

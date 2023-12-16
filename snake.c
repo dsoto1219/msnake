@@ -88,9 +88,16 @@ snake *pop(snake *head) {
 /*
    Creates a snake of a given length using the inputted head and body parts. 
 */
-snake *lcreatesnake(part head_p, int l, direction start_d) {
+snake *lcreatesnake(int init_y, int init_x, int length, direction start_d) {
+	part head_p = { 
+		.coords = {
+			.y = init_y,
+			.x = init_x,
+		},
+		.attire = HEAD_ATTIRE 
+	};
 	snake *head = createsnake(head_p);
-	for (int i = 1; i < l; i++)
+	for (int i = 1; i < length; i++)
 		growsnake(head, start_d);
 	return head;
 }

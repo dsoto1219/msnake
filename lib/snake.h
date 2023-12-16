@@ -20,7 +20,7 @@ snake *insert(snake *head, part p);
 snake *append(snake *head, part p);
 snake *growsnake(snake *head, direction d);
 snake *pop(snake *head);
-snake *lcreatesnake(part head_p, int l, direction start_d);
+snake *lcreatesnake(int init_y, int init_x, int length, direction start_d);
 snake *movesnake(snake *head, snake *tail, direction d);
 void wprintsnake(WINDOW *win, snake *head);
 void printsnake(snake *head);
