@@ -76,8 +76,14 @@ snake *growsnake(snake *head, direction d) {
 }
 
 snake *pop(snake *head) {
+	if (head == NULL) {
+		// List is empty, nothing to pop
+		return NULL;
+	}
+
 	snake *ptr;
 	for (ptr = head; ptr->next != NULL; ptr = ptr->next);
+
 	snake *new_tail = ptr->prev;
 	new_tail->next = NULL;
 	free(ptr);
