@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
-#include "lib/snake.h"
-#include "lib/keys.h"
+#include "../lib/snake.h"
+#include "../lib/keys.h"
 
 /* DIRECTION FUNCTIONS */
 

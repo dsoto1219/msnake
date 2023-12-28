@@ -2,8 +2,8 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
-#include "lib/keys.h"
-#include "lib/snake.h"
+#include "../lib/keys.h"
+#include "../lib/snake.h"
 
 #define TIMEOUT_DELAY 125		/* Delay is in ms */
 #define INITIAL_SNAKE_LENGTH 3
