@@ -1,6 +1,6 @@
 CC := gcc
 CFLAGS := -ggdb3 -std=c11 -Wall -Wpedantic -lncursesw
-SRC := main.c snake.c
+SRC := src/main.c src/snake.c
 EXEC := snake
 
 $(EXEC): $(SRC)
