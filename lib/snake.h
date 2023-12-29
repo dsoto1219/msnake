@@ -52,7 +52,7 @@ typedef struct dllsnake {
 } snake; 
 
 snake *createsnake(part head_p);
-snake *insert(snake *head, part p);
+snake *insert(snake *head, part body_p);
 snake *append(snake *head, part p);
 snake *growsnake(snake *head, direction d);
 snake *pop(snake *head);

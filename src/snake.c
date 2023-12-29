@@ -164,13 +164,10 @@ snake *append(snake *head, part p) {
 	}
 	new->part = p;
 
-	for (snake *ptr = head; true; ptr = ptr->next) {
-		if (ptr->next == NULL) {
-			ptr->next = new;
-			new->prev = ptr;
-			break;
-		}
-	}
+	snake *ptr;
+	for (ptr = head; ptr->next != NULL; ptr = ptr->next);
+	ptr->next = new;
+	new->prev = ptr;
 	new->next = NULL;
 
 	return new; 
@@ -192,15 +189,22 @@ snake *growsnake(snake *head, direction d) {
 
 snake *pop(snake *head) {
 	if (head == NULL) {
-		// List is empty, nothing to pop
+		// List is empty
 		return NULL;
 	}
 
+	// find last node, save it in ptr
 	snake *ptr;
 	for (ptr = head; ptr->next != NULL; ptr = ptr->next);
 
-	snake *new_tail = ptr->prev;
-	new_tail->next = NULL;
+	// new tail is last node's previous tail (assuming it has one)
+	snake *new_tail; 
+	if (ptr->prev != NULL) {
+		new_tail = ptr->prev;
+		new_tail->next = NULL;
+	} else {
+		new_tail = NULL;
+	}
 	free(ptr);
 
 	return new_tail;
