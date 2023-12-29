@@ -264,7 +264,7 @@ snake *movesnake(snake *head, snake *tail, direction d) {
 	dmoveobj(&newhead_p, d);
 	currenthead_pp->attire = BODY_ATTIRE;
 
-	head = insert(head, newhead_p);
+	head = prepend(head, newhead_p);
 	pop(tail);
 
 	return head;
