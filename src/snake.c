@@ -119,13 +119,13 @@ void randcoords(object *obj, int row, int col) {
 
 /* SNODE & SNAKE FUNCTIONS */
 /* Initializes the snake linked list by creating the first element (the head), and returns the new head. */
-snake *createsnake(part head_p) {
+snake *createhead(part p) {
 	snake *head = (snake *)malloc(sizeof(snake));
 	if (head == NULL) {
 		fprintf(stderr, "Unable to allocate memory for new part");
 		exit(1);
 	}
-	head->part = head_p;
+	head->part = p;
 
 	head->prev = NULL;
 	head->next = NULL;
@@ -134,13 +134,13 @@ snake *createsnake(part head_p) {
 }
 
 /* Add element to beginning of snake linked list */
-snake *insert(snake *head, part body_p) {
+snake *prepend(snake *head, part p) {
 	snake *new = (snake *)malloc(sizeof(snake));
 	if (new == NULL) {
 		fprintf(stderr, "Unable to allocate memory for new part");
 		exit(1);
 	}
-	new->part = body_p;
+	new->part = p;
 
 	new->prev = NULL;
 	new->next = head;
@@ -227,7 +227,7 @@ snake *lcreatesnake(int init_y, int init_x, int length, snake **tail, direction 
 		},
 		.attire = HEAD_ATTIRE 
 	};
-	snake *head = createsnake(head_p);
+	snake *head = createhead(head_p);
 	for (int i = 1; i < length; i++)
 		*tail = growsnake(head, start_d);
 	

@@ -51,8 +51,8 @@ typedef struct dllsnake {
     struct dllsnake *next;
 } snake; 
 
-snake *createsnake(part head_p);
-snake *insert(snake *head, part body_p);
+snake *createhead(part p);
+snake *prepend(snake *head, part p);
 snake *append(snake *head, part p);
 snake *growsnake(snake *head, direction d);
 snake *pop(snake *head);
