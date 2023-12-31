@@ -57,7 +57,7 @@ Issues are listed in decreasing order of importance.
 
 ### Building From Source
 
-Requirements: GCC, GNU make, and ncurses.
+Requirements: GCC, GNU make, and ncurses library.
 
 1. Clone this repository, and change your directory to its location.
 2. Run `make snake`.
