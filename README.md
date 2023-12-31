@@ -2,6 +2,8 @@
 
 Final Project for CS50x.
 
+#### Video Demo: https://www.youtube.com/watch?v=-gqIlLWRuK8
+
 ## Description
 
 A terminal snake game, meant to be an alternative for the popular [nSnake](https://github.com/alexdantas/nSnake). The snake's behavior is built to be more responsive, and the game itself is meant to be more minimalistic and easily replayable. 
