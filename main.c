@@ -7,14 +7,14 @@
 #include "lib/objects.h"
 #include "lib/snake.h"
 
-#define TIMEOUT_DELAY 125		/* Delay is in ms */
+#define TIMEOUT_DELAY 125				/* Delay is in ms */
 #define INITIAL_SNAKE_LENGTH 3
 #define WALLS_KILL true
 
 int main(void) {
 	initscr();					/* Start curses mode */
 	// Non-window specific settings
-    curs_set(0);				/* Hide cursor */
+	curs_set(0);					/* Hide cursor */
 	noecho();					/* getch() doesn't print the character it receives */
 	start_color();
 
@@ -31,17 +31,17 @@ int main(void) {
 	WINDOW *gamewin = newwin(height, width, starty, startx);
 
 	// Settings for game window 
-    keypad(gamewin, TRUE);				/* Enable F1,...,F12 and arrow keys */
-    wtimeout(gamewin, TIMEOUT_DELAY);	/* Too complex to explain here, read docs */
+	keypad(gamewin, TRUE);				/* Enable F1,...,F12 and arrow keys */
+	wtimeout(gamewin, TIMEOUT_DELAY);	/* Too complex to explain here, read docs */
 
 	// Save bottom-right coordinates of gamewindow to row, col
-    int row, col;
-    getmaxyx(gamewin, row, col);
+	int row, col;
+	getmaxyx(gamewin, row, col);
 
 	srand(time(NULL));
 
 	// Init snake
-    direction d = RIGHT; /* Snake will always travel in this direction */
+	    direction d = RIGHT; /* Snake will always travel in this direction */
 	snake *tail;
 	snake *head = lcreatesnake(row / 2, col / 2, INITIAL_SNAKE_LENGTH, &tail, d);
 
@@ -54,10 +54,10 @@ int main(void) {
 	init_pair(1, COLOR_RED, COLOR_BLACK); 
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
-    int key;
+	int key;
 	int length = INITIAL_SNAKE_LENGTH; /* Variable to dynamically track snake length */
 	bool dead = false;
-    while (key != QUIT_KEY) {
+	while (key != QUIT_KEY) {
 		/* Set and Print Background and Objects */
 		// Call box first, so other elements can be printed on top. 
 		box(gamewin, 0, 0);
@@ -75,7 +75,7 @@ int main(void) {
 		   Always call getch() after printing snake. That way, the snake gets printed and 
 		   then the delay from getch() will allow the player to see the snake before the 
 		   screen is refreshed. 
-	   */
+		*/
 		key = wgetch(gamewin);
 		if (!dead) {
 			if (key != ERR) {
@@ -116,11 +116,11 @@ int main(void) {
 
 		wrefresh(gamewin);
 		werase(gamewin);
-    }
+	}
 
 	freesnake(head);
 
 	curs_set(1);			/* Turn cursor back on */
-    endwin();				/* End curses mode */
-    return EXIT_SUCCESS;
+	endwin();			/* End curses mode */
+	return EXIT_SUCCESS;
 }
