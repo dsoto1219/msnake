@@ -1,16 +1,131 @@
 #include <stdlib.h>
 #include <ncurses.h>
-#include "lib/snake.h"
+#include "../lib/snake.h"
+#include "../lib/keys.h"
 
-/* SNAKE FUNCTIONS */
+/* DIRECTION FUNCTIONS */
+
+direction get_direction(int key, direction current_d) {
+    switch (key) {
+		case RIGHT_KEY: return RIGHT;
+		case LEFT_KEY: return LEFT;
+		case UP_KEY: return UP;
+		case DOWN_KEY: return DOWN;
+		case PAUSE_KEY:
+		case HELP_KEY: return NONE;
+		default: return current_d;
+    }
+}
+
+direction opposite(direction d) {
+    switch (d) {
+		case RIGHT: return LEFT;
+		case LEFT: return RIGHT;
+		case UP: return DOWN;
+		case DOWN: return UP;
+		case NONE: return NONE;
+		default: return d;
+    }
+}
+
+char *dirtostr(direction d) {
+    switch (d) {
+		case RIGHT: return "RIGHT";
+		case LEFT: return "LEFT";
+		case UP: return "UP";
+		case DOWN: return "DOWN";
+		case NONE: return "NONE";
+		// UND = Undefined
+		default: return "UND";
+    }
+}
+
+/* COOORDINATE FUNCTIONS */
+
+bool coordsequal(coordinates c1, coordinates c2) {
+	bool xequal = (c1.x == c2.x);
+	bool yequal = (c1.y == c2.y);
+	return xequal && yequal;
+}
+
+/* GAME OBJECTS */
+
+void wprintobj(WINDOW *win, object obj) {
+    mvwaddch(win, obj.coords.y, obj.coords.x, obj.attire);
+}
+
+void printobj(object obj) {
+	wprintobj(stdscr, obj);
+}
+
+void wcolorprintobj(WINDOW *win, int color, object obj) {
+	wattron(win, color);
+	wprintobj(win, obj);
+	wattroff(win, color);
+}
+
+void colorprintobj(int color, object obj) {
+	wcolorprintobj(stdscr, color, obj);
+}
+
+void dmoveobj(object *obj, direction d) {
+	coordinates *c = &obj->coords;
+	switch (d) {
+		case RIGHT:
+			c->x++;
+			break;
+		case LEFT:
+			c->x--;
+			break;
+		case UP:
+			c->y--;
+			break;
+		case DOWN:
+			c->y++;
+			break;
+		default: 
+			return;
+	}
+}
+
+/* Returns of object is outside of given bounds, including the boundaries themselves. */
+bool outofbounds(object obj, int row, int col) {
+	bool toofar_up = obj.coords.y <= 0;
+	// We add the -1 to include the border around the window
+	bool toofar_down = obj.coords.y >= row - 1;
+	bool toofar_right = obj.coords.x >= col - 1;
+	bool toofar_left = obj.coords.x <= 0;
+	return (toofar_up || toofar_down || toofar_right || toofar_left);
+}
+
+/* Randomizes the coordinates of the given object such that the object remains inside
+   the given boundaries (not including the boundaries themselves).
+*/
+
+void randcoords(object *obj, int row, int col) {
+	/*
+	   Instead of just randomizing coordinates and adding a check to make sure that they 
+	   aren't out of bounds, we instead limit where the random coordinates 
+	   could end up using the following logic (using row as an example, but the same logic
+	   applies to col):
+
+	   rand() % row \in \{0, 1, 2, ..., row \}
+	   \implies rand() % (row - 2) \in \{0, 1, 2, ..., row - 2\}
+	   \implies (rand() % (row - 2)) + 1 \in \{1, 2, 3, ..., row - 1\}
+	*/
+	obj->coords.y = (rand() % (row - 2)) + 1;
+	obj->coords.x = (rand() % (col - 2)) + 1;
+}
+
+/* SNODE & SNAKE FUNCTIONS */
 /* Initializes the snake linked list by creating the first element (the head), and returns the new head. */
-snake *createsnake(part head_p) {
+snake *createhead(part p) {
 	snake *head = (snake *)malloc(sizeof(snake));
 	if (head == NULL) {
 		fprintf(stderr, "Unable to allocate memory for new part");
 		exit(1);
 	}
-	head->part = head_p;
+	head->part = p;
 
 	head->prev = NULL;
 	head->next = NULL;
@@ -19,13 +134,13 @@ snake *createsnake(part head_p) {
 }
 
 /* Add element to beginning of snake linked list */
-snake *insert(snake *head, part body_p) {
+snake *prepend(snake *head, part p) {
 	snake *new = (snake *)malloc(sizeof(snake));
 	if (new == NULL) {
 		fprintf(stderr, "Unable to allocate memory for new part");
 		exit(1);
 	}
-	new->part = body_p;
+	new->part = p;
 
 	new->prev = NULL;
 	new->next = head;
@@ -49,13 +164,10 @@ snake *append(snake *head, part p) {
 	}
 	new->part = p;
 
-	for (snake *ptr = head; true; ptr = ptr->next) {
-		if (ptr->next == NULL) {
-			ptr->next = new;
-			new->prev = ptr;
-			break;
-		}
-	}
+	snake *ptr;
+	for (ptr = head; ptr->next != NULL; ptr = ptr->next);
+	ptr->next = new;
+	new->prev = ptr;
 	new->next = NULL;
 
 	return new; 
@@ -77,15 +189,22 @@ snake *growsnake(snake *head, direction d) {
 
 snake *pop(snake *head) {
 	if (head == NULL) {
-		// List is empty, nothing to pop
+		// List is empty
 		return NULL;
 	}
 
+	// find last node, save it in ptr
 	snake *ptr;
 	for (ptr = head; ptr->next != NULL; ptr = ptr->next);
 
-	snake *new_tail = ptr->prev;
-	new_tail->next = NULL;
+	// new tail is last node's previous tail (assuming it has one)
+	snake *new_tail; 
+	if (ptr->prev != NULL) {
+		new_tail = ptr->prev;
+		new_tail->next = NULL;
+	} else {
+		new_tail = NULL;
+	}
 	free(ptr);
 
 	return new_tail;
@@ -108,7 +227,7 @@ snake *lcreatesnake(int init_y, int init_x, int length, snake **tail, direction 
 		},
 		.attire = HEAD_ATTIRE 
 	};
-	snake *head = createsnake(head_p);
+	snake *head = createhead(head_p);
 	for (int i = 1; i < length; i++)
 		*tail = growsnake(head, start_d);
 	
@@ -145,7 +264,7 @@ snake *movesnake(snake *head, snake *tail, direction d) {
 	dmoveobj(&newhead_p, d);
 	currenthead_pp->attire = BODY_ATTIRE;
 
-	head = insert(head, newhead_p);
+	head = prepend(head, newhead_p);
 	pop(tail);
 
 	return head;
