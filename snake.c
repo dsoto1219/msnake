@@ -35,13 +35,13 @@ snake *insert(snake *head, part body_p) {
 	return new;
 }
 
+snake *append(snake *head, part p) {
 /*
 	Appends a part to snake linked list. This is a generic function for adding an element to a doubly linked list. 
 	Returns the (new) tail of the snake.
 	Note: this function does not necessarily place the part in the correct position for it to look correct on the screen.
 	The function for that is growsnake, which relies on this function.
 */
-snake *append(snake *head, part p) {
 	snake *new = (snake *)malloc(sizeof(snake));
 	if (new == NULL) {
 		fprintf(stderr, "Unable to allocate memory for new part");

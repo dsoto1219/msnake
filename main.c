@@ -78,13 +78,13 @@ int main(void) {
 		*/
 		key = wgetch(gamewin);
 		if (!dead) {
-			if (key != ERR) {
+			if (key != ERR) {	/* wgetch() returns ERR if no key is pressed */
 				direction new_d = get_direction(key, d);
+				// Don't let the player turn 180 degrees
 				if (new_d != opposite(d)) {
 					d = new_d;
 				}
 			}
-			
 			if (d != NONE) {
 				head = movesnake(head, tail, d);
 
@@ -96,7 +96,6 @@ int main(void) {
 					d = NONE;
 					head->part.attire = DEAD_ATTIRE;
 				}
-
 				if (coordsequal(head->part.coords, apple.coords)) {
 					tail = growsnake(tail, d);
 					length++;
