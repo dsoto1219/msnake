@@ -4,7 +4,7 @@ Final Project for CS50x.
 
 #### Video Demo: 
 
-[![Video Demo](https://img.youtube.com/vi/-gqIlLWRuK8/0.jpg)](https://www.youtube.com/watch?v=-gqIlLWRuK8)
+[![Video Demo](https://img.youtube.com/vi/-gqIlLWRuK8/maxresdefault.jpg)](https://www.youtube.com/watch?v=-gqIlLWRuK8)
 
 ## Description
 
