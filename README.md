@@ -27,4 +27,4 @@ Requirements: GCC, GNU make, and ncurses library.
 
 ## Contributing
 
-See [](CONTRIBUTING.md).
+See (CONTRIBUTING.md)[CONTRIBUTING.md].
