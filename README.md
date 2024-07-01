@@ -8,20 +8,37 @@ Final Project for CS50x.
 
 A terminal snake game, meant to be an alternative for the popular [nSnake](https://github.com/alexdantas/nSnake). The snake's behavior is built to be more responsive, and the game itself is meant to be more minimalistic and easily replayable. 
 
-### File Descriptions:
+## Installation
 
-#### Source files (found in `src/`):
+### Building From Source
+
+Requirements: GCC, GNU make, and ncurses library.
+
+1. Clone this repository, and change your directory to its location.
+2. Run `make snake`.
+
+## How to play
+
+- Run `./snake` to run the game. 
+- Use the arrow keys to move the snake in any given direction.
+- Press `p` or `h` to pause the game (note: at this time, despite the bottom-left message, pressing `h` does not display a help message).
+- Press `r` to restart the game. 
+- Press `q` to quit the game.
+
+## File Descriptions:
+
+### Source files (found in `src/`):
 
 - `snake.c`: Contains all functions related to the snake game, such as functions for creating the snake, deleting the snake, moving the snake, creating and positioning the food, and other lower-level functions that would otherwise clutter the `main.c` file if they were declared in that file.
 - `main.c`: Contains `main()`, which handles creating the game window and handling all game logic.
 
-#### Header files (found in `lib/`):
+### Header files (found in `lib/`):
 
 - `snake.h`: Top-level declarations of functions found in `snake.c`, as well as definitions of structs that define game objects, such as the snake's `food` and the snake itself.
 - `keys.h`: Top-level declarations of global variables that define the keys that are to be used for the game.
 
 
-### Design Choices
+## Design Choices
 
 #### `timeout()`
 
@@ -52,20 +69,3 @@ Issues are listed in decreasing order of importance.
 - Memory leak in at least one of the functions used to move the snake.
 - Terminal's cursor disappears after quitting the game. 
 - Snake can "sprint" if any of its movement keys are held down.
-
-## Installation
-
-### Building From Source
-
-Requirements: GCC, GNU make, and ncurses library.
-
-1. Clone this repository, and change your directory to its location.
-2. Run `make snake`.
-
-## How to play
-
-- Run `./snake` to run the game. 
-- Use the arrow keys to move the snake in any given direction.
-- Press `p` or `h` to pause the game (note: at this time, despite the bottom-left message, pressing `h` does not display a help message).
-- Press `r` to restart the game. 
-- Press `q` to quit the game.
